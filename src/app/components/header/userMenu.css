@@ -1,0 +1,49 @@
+@keyframes opacityAdd {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes opacityRemove {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.userMenu {
+    position: absolute;
+    width: 12rem;
+    height: 12rem;
+    border-radius: 20px;
+    background-color: white;
+    margin-top: 64px;
+    opacity: 0;
+    animation: opacityRemove 0.2s ease-in-out;
+    pointer-events: none;
+}
+
+.triggerD:hover + .userMenu {
+    pointer-events: all;
+    opacity: 1;
+    animation: opacityAdd 0.2s ease-in-out;
+}
+
+.triggerD{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 70px;
+}
+
+.userMenu:hover {
+    pointer-events: all;
+    opacity: 1;
+    animation: opacityAdd 0.2s ease-in-out;
+}
