@@ -1,13 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { GrUpdate } from "react-icons/gr";
+
 import StatsContainer from './components/statsPage/statsContainer';
 import { useAppDispatch, useAppSelector } from '../redux/slices/statsSlice';
 import { fetchGetStats } from '@/redux/slices/statsSlice';
-import { selectIsAuth } from '@/redux/slices/authSlice';
-import { useRouter } from 'next/navigation';
 import { fetchCard } from '@/redux/slices/cardsSlice';
-import { GrUpdate } from "react-icons/gr";
+import { selectIsAuth } from '@/redux/slices/authSlice';
 
 const StatsPage = () => {
   const isAuth = useAppSelector(selectIsAuth);
@@ -16,6 +17,7 @@ const StatsPage = () => {
   const statsData = useAppSelector((state) => state.stats.data);
   const [loading, setLoading] = useState(true);
   const [currentCard, setCurrentCard] = useState(null);
+  const [statsUser, setStatsUser] = useState(null);
 
   useEffect(() => {
     if (!isAuth) {
@@ -28,20 +30,19 @@ const StatsPage = () => {
 
   const fetchCardFunc = async () => {
     if (isAuth) {
-      const fetchCardResult = await dispatch(fetchCard());
-      if (fetchCardResult.payload == undefined) {
-        setCurrentCard(null);
-      } else {
-        setCurrentCard(fetchCardResult.payload.data)
-      }
+      const result = await dispatch(fetchCard());
+      setCurrentCard(result.payload?.data ?? null);
     } else {
       setCurrentCard(null);
     }
   };
 
   const fetchData = async () => {
-    await dispatch(fetchGetStats());
-    setLoading(false);
+    if (isAuth) {
+      const result = await dispatch(fetchGetStats());
+      setStatsUser(result.payload?.userData ?? null);
+      setLoading(false);
+    }
   };
 
   if (loading) {
@@ -53,17 +54,20 @@ const StatsPage = () => {
   }
 
   return (
-    (statsData) &&
-    <>
-      <div onClick={() => 
-      {fetchCardFunc();
-      fetchData();}}
-      className="flex justify-center cursor-pointer items-center rounded-full w-16 h-16 bg-violet-500 fixed mr-12 mb-12 bottom-0 right-0">
-        <GrUpdate size="30px" color="white" />
-      </div>
-      <StatsContainer {...statsData.userData} card={currentCard} />
-    </> 
-    
+    statsData && (
+      <>
+        <div
+          onClick={() => {
+            fetchCardFunc();
+            fetchData();
+          }}
+          className="flex justify-center cursor-pointer items-center rounded-full w-16 h-16 bg-violet-500 fixed mr-12 mb-12 bottom-0 right-0"
+        >
+          <GrUpdate size="30px" color="white" />
+        </div>
+        <StatsContainer data={statsUser} card={currentCard} />
+      </>
+    )
   );
 };
 

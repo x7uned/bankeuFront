@@ -43,7 +43,7 @@ export const fetchSetDesign = createAsyncThunk('stats/fetchSetDesign', async (pa
     return data;
 })
 
-export const fetchTransfer = createAsyncThunk('stats/fetchTransfer', async (params: {addresserNumber : number, receiverNumber: number, sum: number}) => {
+export const fetchTransfer = createAsyncThunk('stats/fetchTransfer', async (params: {addresserNumber : number, receiverNumber: number, sum: number; comment: string;}) => {
     const { data } = await axios.post('transaction/transfer', params, {
         headers: {
             'Content-Type': 'application/json'

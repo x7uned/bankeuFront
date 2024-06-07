@@ -1,8 +1,19 @@
 import { BsCalendarWeek } from "react-icons/bs";
 import { IoIosArrowForward } from "react-icons/io";
 import { Transaction } from "../statsContainer";
+import { format, parseISO } from 'date-fns';
 
 const Transactions = ({ transactions }: { transactions: Transaction[] }) => {
+    function formatDate(dateString: string) {
+      const date = parseISO(dateString);
+      const formattedDate = format(date, 'EEEE dd MMMM yyyy');
+      const formattedTime = format(date, 'HH:mm');
+      return {
+          date: formattedDate,
+          time: formattedTime
+      };
+    }
+
     if (transactions.length === 0) {
       return <div className="flex flex-row gap-6"></div>;
     }
@@ -22,8 +33,8 @@ const Transactions = ({ transactions }: { transactions: Transaction[] }) => {
               <p className="text-gray-500 w-full text-start">{transaction.text}</p>
             </div>
             <div className="flex flex-col gap-3 w-1/4">
-              <p className="text-black w-full text-start font-medium">{transaction.date.slice(0, 16)}</p>
-              <p className="text-gray-500 w-full text-start">{transaction.date.slice(16)}</p>
+              <p className="text-black w-full text-start font-medium">{formatDate(transaction.date).date}</p>
+              <p className="text-gray-500 w-full text-start">{formatDate(transaction.date).time}</p>
             </div>
             <p className="w-40 text-2xl text-end font-medium">{transaction.cost}$</p>
           </div>

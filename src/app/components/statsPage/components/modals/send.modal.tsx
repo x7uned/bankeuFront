@@ -16,9 +16,10 @@ import { Card } from '../../statsContainer';
 
 const font = Outfit({ subsets: ["latin"], variable: "--font" });
 
-export type FormAddCardValues = {
+export type FormSend = {
     receiverNumber: number;
     sum: number;
+    comment: string;
 };
 
 interface SendModalProps {
@@ -42,9 +43,13 @@ const SendModal: React.FC<SendModalProps> = ({ active, setActive, data }) => {
             .min(1, "Sum min 1")
             .max(balance, "You don't have that kind of money, broke :)")
             .required("Sum is required"),
+        comment: yup.string()
+            .typeError("Comment is required")
+            .max(50, "Maximum 50 symbols")
+            .required("Addresser Number is required"),
     }).required();
 
-    const { register, handleSubmit, formState: { errors } } = useForm<FormAddCardValues>({
+    const { register, handleSubmit, formState: { errors } } = useForm<FormSend>({
         resolver: yupResolver(schema),
     });
 
@@ -52,8 +57,14 @@ const SendModal: React.FC<SendModalProps> = ({ active, setActive, data }) => {
         try {
             params.addresserNumber = data.card_number;
             params.receiverNumber = JSON.stringify(params.receiverNumber);
-            await dispatch(fetchTransfer(params));
-            toast.success('Transaction successful!');
+            const fetch = await dispatch(fetchTransfer(params));
+            if (fetch.error) {
+                console.error(fetch.error)
+                toast.error('Something went wrong :(');
+            } else {
+                toast.success('Transaction successful!');
+                setActive(false)
+            }
         } catch (error) {
             console.error(error);
             toast.error('Removing card error');
@@ -74,7 +85,7 @@ const SendModal: React.FC<SendModalProps> = ({ active, setActive, data }) => {
                 theme="colored"
             />
             <div className={`modal ${active ? 'active' : ''}`} onClick={() => setActive(false)}>
-                <div className={`modal__content ${font.className}`} style={{ width: '500px', height: '400px' }} onClick={(e) => { e.stopPropagation() }}>
+                <div className={`modal__content ${font.className}`} style={{ width: '500px', height: '500px' }} onClick={(e) => { e.stopPropagation() }}>
                     <div className="flex text-black gap-2 items-center flex-col h-full">
                         <FaMoneyBillTransfer size="50px" />
                         <p className='text-2xl font-medium'>Create transaction</p>
@@ -102,6 +113,17 @@ const SendModal: React.FC<SendModalProps> = ({ active, setActive, data }) => {
                                     {...register("sum")}
                                 />
                                 {errors.sum && <p className={styles.error}>{errors.sum.message}</p>}
+                            </div>
+                            <div className={styles.inputGroup}>
+                                <label htmlFor="comment" className={styles.label}>
+                                    <p className="text-black font-medium">Comment</p>
+                                </label>
+                                <input
+                                    id="comment"
+                                    className={styles.input}
+                                    {...register("comment")}
+                                />
+                                {errors.comment && <p className={styles.error}>{errors.comment.message}</p>}
                             </div>
                             <div className="flex w-full justify-around mt-3">
                                 <button onClick={() => setActive(false)} className="flex items-center justify-center p-2 w-2/5 text-red-600">

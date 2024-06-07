@@ -5,12 +5,9 @@ import CardsContainer from "./components/cards";
 import BalanceContainer from "./components/balance";
 import TransactionsContainer from "./components/transactions";
 
-const mont = Outfit({ subsets: ["latin"], variable: "--mont" });
+import { Contact } from "./components/contacts";
 
-export interface Contact {
-  name: string;
-  avatar: string;
-}
+const mont = Outfit({ subsets: ["latin"], variable: "--mont" });
 
 export interface Transaction {
   title: string;
@@ -44,6 +41,7 @@ interface Props {
 }
 
 export default function StatsContainer({ data = { contacts: [], cards: [], selected_card: 0, owner_id: 0 }, card = {} as Card }: Props) {
+  console.log(data);
   return (
     <main className="flex bg-white w-full min-h-screen pl-24">
       <aside className={`row-span-4 w-1/3 ${mont.className}`}>
@@ -52,7 +50,7 @@ export default function StatsContainer({ data = { contacts: [], cards: [], selec
       <article className={`w-3/4 flex flex-col gap-16 ${mont.className}`}>
         <BalanceContainer data={card} />
         <ContactsContainer contacts={data.contacts} />
-        <TransactionsContainer transactions={card?.transactions || []} />
+        <TransactionsContainer transactions={card.transactions || []} />
       </article>
     </main>
   );

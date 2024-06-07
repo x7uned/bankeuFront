@@ -1,10 +1,10 @@
 import { GoPlus } from "react-icons/go";
-import Image from "next/image";
-import shibo from '../../header/shibo.jpg';
+import { checkDesign } from "./cards";
 
-interface Contact {
+export interface Contact {
     name: string;
     avatar: string;
+    number: string;
 }
 
 const Contacts = ({ contacts }: { contacts: Contact[] }) => {
@@ -12,17 +12,13 @@ const Contacts = ({ contacts }: { contacts: Contact[] }) => {
         return <div className="flex flex-row gap-6"></div>;
     }
 
+    console.log(contacts)
+
     return (
         <div className="flex flex-row gap-6">
             {contacts.map((contact, index) => (
-                <div className="flex gap-3 w-14 items-center text-center flex-col" key={index}>
-                    <Image
-                        className="cursor-pointer rounded-full overflow-hidden"
-                        width={100}
-                        height={100}
-                        src={shibo}
-                        alt={contact.name}
-                    />
+                <div className="flex cursor-pointer gap-3 w-14 items-center text-center flex-col" key={index}>
+                    <div className={`w-14 h-14 rounded-full bg-no-repeat bg-center bg-cover ${checkDesign(contact.avatar)} `}></div>
                     <p className="text-gray-500 w-full truncate">{contact.name}</p>
                 </div>
             ))}
