@@ -8,6 +8,7 @@ In this project, I used:
 - Redux Toolkit
 - Tailwind
 - Yup
+
 Screenshots:
 ![image](https://github.com/x7uned/bankeuFront/assets/125193669/471c75d6-f224-4ee1-9b80-2db14dc1bbb8)
 ![image](https://github.com/x7uned/bankeuFront/assets/125193669/79f5b7ad-4b8d-46f4-b72d-1db4943309ff)
