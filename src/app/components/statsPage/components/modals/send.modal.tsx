@@ -57,7 +57,7 @@ const SendModal: React.FC<SendModalProps> = ({ active, setActive, data }) => {
         try {
             params.addresserNumber = data.card_number;
             params.receiverNumber = JSON.stringify(params.receiverNumber);
-            const fetch = await dispatch(fetchTransfer(params));
+            const fetch: any = await dispatch(fetchTransfer(params));
             if (fetch.error) {
                 console.error(fetch.error)
                 toast.error('Something went wrong :(');

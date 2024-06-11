@@ -40,11 +40,11 @@ const ChangeDesignModal: React.FC<ChangeCard> = ({ active, setActive, card }) =>
       <div className='w-full h-52' key={index}>
         <div onClick={() => selectDesign(design, card.id)} className={`flex flex-col bg-center ${checkDesign(design)} cursor-pointer gap-12 card bg-black px-10 pt-8 h-48 rounded-3xl m-3 mt-10`}>
           <div className="flex w-full justify-between">
-            <p className="text-xl">{card.card_name}</p>
+            <p className="text-xl">{card?.card_name}</p>
             <p className="text-xl">HR</p>
           </div>
           <div className="flex w-full justify-center">
-            <p className="text-xl w-full tracking-[.16em]">{addSpacesToNumber(card.card_number)}</p>
+            <p className="text-xl w-full tracking-[.16em]">{addSpacesToNumber(card?.card_number)}</p>
           </div>
         </div>
       </div>

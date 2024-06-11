@@ -50,7 +50,7 @@ export default function StatsContainer({ data = { contacts: [], cards: [], selec
       <article className={`w-3/4 flex flex-col gap-16 ${mont.className}`}>
         <BalanceContainer data={card} />
         <ContactsContainer contacts={data.contacts} />
-        <TransactionsContainer transactions={card.transactions || []} />
+        <TransactionsContainer transactions={card?.transactions || []} />
       </article>
     </main>
   );

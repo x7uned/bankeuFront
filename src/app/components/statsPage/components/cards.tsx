@@ -16,6 +16,7 @@ import ChangeCardModal from "./modals/changeCard.modal";
 import { useAppSelector } from '@/redux/slices/statsSlice';
 import { selectIsAuth } from "@/redux/slices/authSlice";
 import ChangeDesignModal from "./modals/changedesign.modal";
+import ChangePINModal from "./modals/changePIN.modal";
 
 export function addSpacesToNumber(number: Number) {
   let strNumber = String(number);
@@ -59,7 +60,8 @@ const CardsContainer = ({ data }: { data: Card }) => {
     const [addCardModal, setAddCardModal] = useState(false);
     const [removeCardModal, setRemoveCardModal] = useState(false);
     const [changeCardModal, setChangeCardModal] = useState(false);
-    const [changeDesignModal, setChangeDesignModal] = useState(false)
+    const [changeDesignModal, setChangeDesignModal] = useState(false);
+    const [changePINModal, setChangePINModal] = useState(false);
     const isAuth = useAppSelector(selectIsAuth);
 
     const removeCard = async () => {
@@ -90,7 +92,7 @@ const CardsContainer = ({ data }: { data: Card }) => {
                         <p className="text-black font-medium w-5/6">Show Card Details</p>
                         <IoIosArrowForward size={"24px"} color="black" />
                     </div>
-                    <div className="flex w-full px-3 cursor-pointer">
+                    <div onClick={() => {setChangePINModal(true)}} className="flex w-full px-3 cursor-pointer">
                         <CgPassword size={"20px"} color="gray" className="w-1/6" />
                         <p className="text-black font-medium w-5/6">Your PIN</p>
                         <IoIosArrowForward size={"24px"} color="black" />
@@ -128,6 +130,7 @@ const CardsContainer = ({ data }: { data: Card }) => {
             <RemoveCardModal active={removeCardModal} setActive={setRemoveCardModal} />
             <ChangeCardModal active={changeCardModal} setActive={setChangeCardModal} />
             <ChangeDesignModal active={changeDesignModal} setActive={setChangeDesignModal} card={data} />
+            <ChangePINModal active={changePINModal} setActive={setChangePINModal} id={data?.id} />
             <div className="flex mt-12 ml-5 gap-12">
                 <button onClick={() => { setAddCardModal(true) }} className="flex rounded-full items-center p-3 w-2/5 bg-violet-600 text-white">
                     <p className="w-2/3 text-base">Add Card</p>

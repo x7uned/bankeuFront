@@ -25,7 +25,6 @@ export const fetchGetCards = createAsyncThunk('stats/fetchGetCards', async () =>
 })
 
 export const fetchSelectCard = createAsyncThunk('stats/fetchSelectCard', async (params: { id: number }) => {
-    console.log(params)
     const { data } = await axios.post('data/selectcard', params, {
         headers: {
             'Content-Type': 'application/json'

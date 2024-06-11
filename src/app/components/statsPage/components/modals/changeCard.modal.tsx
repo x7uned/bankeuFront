@@ -21,7 +21,7 @@ interface MiniCard {
 
 const CardCont: React.FC<{ data: MiniCard, onSelect: (id: number) => void }> = ({ data, onSelect }) => {
   return (
-    <div key={data.id}>
+    <div className='w-[350px] h-52' key={data.id}>
       <div
         onClick={() => onSelect(data.id)}
         className={`flex flex-col bg-center ${checkDesign(data.card_design)} cursor-pointer gap-12 card bg-black px-10 pt-8 h-48 rounded-3xl m-3 mt-10 w-full`}
@@ -88,7 +88,7 @@ const ChangeCardModal: React.FC<ModalProps> = ({ active, setActive }) => {
       <div className={`modal ${active ? 'active' : ''}`} onClick={() => setActive(false)} aria-modal="true">
         <div
           className={`modal__content ${font.className}`}
-          style={{ width: '500px', minHeight: '200px' }}
+          style={{ width: '900px', minHeight: '600px' }}
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex items-center flex-col gap-1">
@@ -96,7 +96,7 @@ const ChangeCardModal: React.FC<ModalProps> = ({ active, setActive }) => {
               <LuWalletCards size="50px" color="black" />
             </div>
             <p className="text-black text-2xl font-medium">Select card</p>
-            <div className="flex flex-col w-4/5 justify-around mt-3">
+            <div className="grid grid-cols-2 gap-x-2 w-[750px] justify-around overflow-y-auto h-[500px]">
               {availableCards.map((data) => (
                 <CardCont key={data.id} data={data} onSelect={selectCardFunc} />
               ))}
